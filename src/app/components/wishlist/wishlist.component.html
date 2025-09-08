@@ -1,0 +1,12 @@
+<div class="px-40">
+ <div class="flex flex-wrap">
+      <div *ngFor="let product of products trackBy: trackByFn" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+        <app-products-card [product]="product" [searchItem]="searchItem" (wishlistChanged)="onWishlistChanged($event)"></app-products-card>
+      </div>
+      <div *ngIf="products.length === 0" class="w-full flex items-center justify-center h-[60vh]">
+  <h4 class="text-lg text-gray-600 text-center">
+    Your wishlist is currently empty. Add products to easily access them later..!
+  </h4>
+</div>
+</div>
+</div>

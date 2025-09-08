@@ -1,0 +1,97 @@
+<div class="px-10 py-10 pt-3">
+<h2 class="text-2xl font-bold text-gray-800 mb-3 justify-center flex">My Orders</h2>
+
+<div *ngFor="let order of orders" class="mb-6 border rounded-lg p-2 shadow-sm pr-5 pl-5">
+  
+  <!-- Order Header: Payment Type & Status -->
+  <!-- <div class="flex justify-between items-center mb-2">
+    <div class="text-sm text-gray-600">
+      <span class="font-medium text-gray-800">Payment:</span> {{ order.paymentType | titlecase }}
+    </div>
+    <div>
+     <span 
+  class="px-2 py-1 text-xs font-semibold rounded-full"
+  [ngClass]="{
+    'bg-yellow-100 text-yellow-800': order.status?.toLowerCase() === 'inprogress',
+    'bg-green-100 text-green-800': order.status?.toLowerCase() === 'completed',
+    'bg-red-100 text-red-800': order.status?.toLowerCase() === 'cancelled'
+  }">
+  {{ order.status | uppercase }}
+</span>
+
+    </div>
+  </div> -->
+
+  <!-- ORDER HEADER BOX -->
+<div class="bg-gray-50 border border-gray-200 rounded-md p-4 mb-4 shadow-sm">
+
+  <div class="flex justify-between items-start flex-wrap">
+
+    <!-- LEFT SIDE: Order ID + Date -->
+    <div class="space-y-1 text-sm text-gray-700">
+      <div>
+        <span class="font-semibold text-gray-800">🧾 Order ID: </span>
+        <span class="text-violet-600 font-medium tracking-wide">{{ order._id }}</span>
+      </div>
+      <div>
+        <span class="font-semibold text-gray-800">📅 Date: </span>
+        <span class="text-gray-700">{{ order.date | date: 'mediumDate' }}</span>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE: Status + Payment -->
+    <div class="text-sm text-right space-y-1 mt-2 sm:mt-0">
+      <!-- Status Badge -->
+      <div>
+        <span 
+          class="px-3 py-1 text-xs font-bold rounded-full inline-block uppercase tracking-wide"
+          [ngClass]="{
+            'bg-yellow-100 text-yellow-800': order.status?.toLowerCase() === 'inprogress',
+            'bg-green-100 text-green-800': order.status?.toLowerCase() === 'completed',
+            'bg-red-100 text-red-800': order.status?.toLowerCase() === 'cancelled'
+          }">
+          {{ order.status | uppercase }}
+        </span>
+      </div>
+
+      <!-- Payment Type -->
+      <div>
+        <span class="font-semibold text-gray-800">💵 Payment: </span>
+        <span class="text-gray-700">{{ order.paymentType | titlecase }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Items in the Order -->
+  <div *ngFor="let item of order.items" class="flex items-center justify-between border-b mb-2">
+    
+    <!-- Product Info -->
+    <div class="flex items-center space-x-4">
+      <img [src]="item.productId.images[0].image" class="w-16 h-16 rounded object-contain shadow" />
+      <div>
+        <p class="text-gray-800 font-semibold text-sm md:text-base">{{ item.productId.name }}</p>
+        <div class="flex items-center space-x-3 text-sm text-gray-600 mt-1">
+          <span><strong>Qty:</strong> {{ item.quantity }}</span>
+          <div class="flex items-center space-x-2 text-xs md:text-sm">
+            <span class="line-through text-gray-400">₹{{ item.productId.price }}</span>
+            <span class="text-red-500 font-semibold">-{{ item.productId.discount }}%</span>
+            <span class="text-green-600 font-semibold">
+              ₹{{ getDiscountedPrice(item.productId.price, item.productId.discount) }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total for Item -->
+    <div class="text-right">
+      <p class="text-sm text-gray-500">Total</p>
+      <p class="text-violet-600 font-bold text-lg">
+        ₹{{ getDiscountedPrice(item.productId.price, item.productId.discount) * item.quantity }}
+      </p>
+    </div>
+  </div>
+
+</div>
+</div>

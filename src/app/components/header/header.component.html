@@ -1,0 +1,75 @@
+<header class="header">
+  <!-- Top Bar -->
+  <div class="header__top animate-slide-in-down">
+    <div class="header__logo">
+      <a [routerLink]="'/'">Shop<span>Mate</span></a>
+    </div>
+
+    <!-- Search Bar with template reference -->
+    <div class="header__search focus-effect">
+      <input
+        type="text"
+        placeholder="Search products..."
+        [(ngModel)]="searchItem"
+        (keyup.enter)="searchProducts($event)"
+      />
+      <button>
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+
+    <div *ngIf="isLoggedIn$ | async" class="header__profile hover-bounce flex gap-2 items-baseline">
+      <a [routerLink]="user?.isAdmin ? '/admin' : '/customer-profile'" matTooltip="Profile">
+        <mat-icon [class.white-icon]="true">person_outline</mat-icon>
+        <span *ngIf="user?.name">{{ user.name }}</span>
+      </a>
+      <div *ngIf="!isAdmin" class="flex">
+      <a routerLink="/wishlist" matTooltip="Favorite">  
+      <mat-icon [class.red-icon]="true">
+    {{ 'favorite' }}
+  </mat-icon></a>
+  <a routerLink="/shopping-cart" matTooltip="Cart">  
+      <mat-icon [class.white-icon]="true">
+    {{ 'shopping_cart' }}
+  </mat-icon></a>
+<a routerLink="/order" matTooltip="Order" matTooltipPosition="above" class="flex items-center">
+  <mat-icon class="white-icon">receipt_long</mat-icon>
+</a>
+</div>
+ <a [routerLink]="'/login'" matTooltip="Logout" class="flex items-center cursor-pointer">
+  <mat-icon class="white-icon">logout</mat-icon>
+</a>
+
+    </div>
+    <div *ngIf="
+          !(isLoggedIn$ | async) &&
+          (router.url == '/login' || router.url == '/register')
+        ">
+       <a
+        class="text-violet-700"
+        *ngIf="
+          !(isLoggedIn$ | async) &&
+          (router.url == '/login' || router.url == '/register')
+        "
+        [routerLink]="router.url === '/login' ? '/register' : '/login'"
+      >
+        {{ router.url === "/login" ? "Register" : "Login" }}
+      </a>
+    </div>
+  </div>
+
+  <!-- Bottom Category Menu -->
+  <nav *ngIf="isLoggedIn$ | async" class="header__bottom animate-slide-in-up">
+    <ul class="header__menu">
+      <li *ngFor="let category of categoryList">
+        <a (click)="searchCategory(category._id)"> {{ category.name }}</a>
+      </li>
+      <!-- <li><a routerLink="/category/electronics">Electronics</a></li>
+      <li><a routerLink="/category/fashion">Fashion</a></li>
+      <li><a routerLink="/category/home">Home & Living</a></li>
+      <li><a routerLink="/category/sports">Sports</a></li>
+      <li><a routerLink="/category/beauty">Beauty</a></li>
+      <li><a routerLink="/category/books">Books</a></li> -->
+    </ul>
+  </nav>
+</header>

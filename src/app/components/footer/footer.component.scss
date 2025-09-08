@@ -1,0 +1,133 @@
+$primary-color: #7C3AED;
+$primary-dark: #5B21B6;
+$bg-color: #1f1f2e;
+$text-color: #dcdcdc;
+$light-text: #aaaaaa;
+
+.footer {
+  background-color: $bg-color;
+  color: $text-color;
+  padding: 4rem 2rem 2rem;
+  font-family: 'Poppins', sans-serif;
+
+  &__top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  &__col {
+    flex: 1 1 220px;
+
+    h2.footer__logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1rem;
+
+      span {
+        color: $primary-color;
+      }
+    }
+
+    h4 {
+      margin-bottom: 1rem;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    p {
+      color: $light-text;
+      line-height: 1.6;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin-bottom: 0.5rem;
+
+        a {
+          color: $light-text;
+          text-decoration: none;
+          transition: color 0.3s;
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+
+    .footer__socials {
+      margin-top: 1rem;
+
+      a {
+        margin-right: 0.5rem;
+        color: #fff;
+        font-size: 20px;
+        display: inline-flex;
+        transition: transform 0.3s, color 0.3s;
+
+        &:hover {
+          color: $primary-color;
+          transform: scale(1.2);
+        }
+      }
+    }
+
+    .footer__newsletter {
+      margin-top: 1rem;
+      display: flex;
+      border: 1px solid #333;
+      border-radius: 30px;
+      overflow: hidden;
+
+      input {
+        flex: 1;
+        border: none;
+        padding: 0.6rem 1rem;
+        background: #2a2a3c;
+        color: #fff;
+
+        &::placeholder {
+          color: #888;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      button {
+        background: $primary-color;
+        border: none;
+        color: #fff;
+        padding: 0 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+
+        &:hover {
+          background: $primary-dark;
+        }
+
+        mat-icon {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  &__bottom {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #333;
+    color: $light-text;
+    font-size: 0.9rem;
+  }
+}

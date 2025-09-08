@@ -1,0 +1,31 @@
+<div class="profile-container" style="margin-top: 5%;">
+  <div class="profile-header">
+    <!-- <img class="profile-img" src="{{ userDetails?.profilePic }}" alt="User Image"> -->
+    <div class="profile-info">
+      <h2>{{ userDetails?.name }}</h2>
+      <p class="email">{{ userDetails?.email }}</p>
+      <p class="status" [ngClass]="{'admin-status': userDetails?.isAdmin, 'user-status': !userDetails?.isAdmin}">
+        {{ userDetails?.isAdmin ? 'Admin' : 'Customer' }}
+      </p>
+    </div>
+  </div>
+
+  <div class="profile-details">
+    <div class="details-card">
+      <h3>Account Information</h3>
+      <p><strong>Created At:</strong> {{ userDetails?.createdAt | date:'medium' }}</p>
+      <p><strong>Last Login:</strong> {{ userDetails?.lastLogin | date:'medium' }}</p>
+    </div>
+
+    <div class="details-card">
+      <h3>Contact Information</h3>
+      <p><strong>Phone:</strong> {{ userDetails?.phone || 'Not Provided' }}</p>
+      <p><strong>Address:</strong> {{ userDetails?.address || 'Not Provided' }}</p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="edit-btn">Edit Profile</button>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</div>

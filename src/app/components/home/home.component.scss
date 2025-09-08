@@ -1,0 +1,13 @@
+/* Carousel item container */
+.owl-carousel .owl-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Make all images same size */
+.owl-carousel .owl-item img {
+  width: 200px;       /* fixed width */
+  height: 150px;      /* fixed height */
+  object-fit: contain; /* keep full image, no cropping */
+}
