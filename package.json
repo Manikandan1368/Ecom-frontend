@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:e-com-web": "node dist/e-com-web/server/server.mjs"
+    "serve:ssr:e-com-web": "node dist/e-com-web/server/server.mjs",
+    "build:ssr": "ng build --configuration=production && ng run e-com-web:server:production"
   },
   "private": true,
   "dependencies": {
