@@ -34,7 +34,7 @@ export class ProductsListComponent implements OnInit {
   sortOrder: number = -1;
   branchIds: string = '';
   page: number = 1;
-  pageSize: number = 3;
+  pageSize: number = 4;
   products: Product[] = [];
   categoryList: Category[] = [];
   brandsList: Brand[] = [];
@@ -42,7 +42,8 @@ export class ProductsListComponent implements OnInit {
   displayCategoryName: string = '';
   isNext: boolean = true;
   totalCount: number = 0;
-
+  isLoading : boolean = true;
+   
   constructor(
     private customerService: CustomerService,
     private route: ActivatedRoute,
@@ -73,6 +74,7 @@ export class ProductsListComponent implements OnInit {
   }
 
   getProductList(): void {
+     this.isLoading = true; 
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
@@ -93,13 +95,25 @@ export class ProductsListComponent implements OnInit {
         this.page,
         this.pageSize
       )
-      .subscribe((data) => {
+      .subscribe({
+      next: (data) => {
         this.products = data.products;
         this.totalCount = data.totalCount;
 
         const totalPages = Math.ceil(this.totalCount / this.pageSize);
         this.isNext = this.page < totalPages;
-      });
+        this.isLoading = false; 
+        this.searchItem = '';
+        this.customerService.updateSearchValue(this.searchItem);
+
+      },
+      error: (err) => {
+        console.error('Error loading products', err);
+        this.isLoading = false; 
+        this.searchItem = '';
+        this.customerService.updateSearchValue(this.searchItem);
+      }
+    });
   }
   onCategoryChange() {
     this.updateDisplayCategoryName();
@@ -115,6 +129,8 @@ export class ProductsListComponent implements OnInit {
   }
 
   updateDisplayCategoryName() {
+    // this.searchItem = '';  
+    this.customerService.updateSearchValue(this.searchItem);
     const firstCategoryId = this.selectedCategoryIds?.[0];
     const name =
       this.categoryList.find((c) => c._id === firstCategoryId)?.name || '';

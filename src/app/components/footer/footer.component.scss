@@ -131,3 +131,7 @@ $light-text: #aaaaaa;
     font-size: 0.9rem;
   }
 }
+::ng-deep .custom-snackbar {
+  background-color: #4b5563;   
+  color: white;
+}

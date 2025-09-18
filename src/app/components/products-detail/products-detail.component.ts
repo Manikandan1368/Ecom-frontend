@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../../services/customer.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { ProductsCardComponent } from '../products-card/products-card.component';
@@ -17,7 +17,7 @@ import { ShoppingCartService } from '../../services/shopping-cart.service';
     MatIconModule,
     FormsModule,
     ProductsCardComponent,
-    RouterLink,
+    // RouterLink,
     MatButtonModule,
   ],
   templateUrl: './products-detail.component.html',
@@ -27,20 +27,19 @@ export class ProductsDetailComponent implements OnInit {
   totalCount: any;
   pageSize: any;
 
-  buyNow(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
   product: any;
   selectedImage: string = '';
   selectedTab: string = 'specs';
   newReview = { user: '', comment: '' };
   similarProducts: Product[] = [];
+  isLoading : boolean = true;
 
   constructor(
     private customerService: CustomerService,
     private activeRoute: ActivatedRoute,
     private wishlistService: WishlistService,
-    private shoppingCartService: ShoppingCartService
+    private shoppingCartService: ShoppingCartService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +53,7 @@ export class ProductsDetailComponent implements OnInit {
   }
 
   loadProduct(id: string): void {
+    this.isLoading = true; 
     this.customerService.getProductById(id).subscribe((data) => {
       this.product = data;
       this.selectedImage = this.product.images?.[0]?.image || '';
@@ -79,6 +79,7 @@ export class ProductsDetailComponent implements OnInit {
             .slice(0, 4);
         });
     });
+    this.isLoading = false; 
   }
 
   changeImage(imgUrl: string): void {
@@ -147,4 +148,27 @@ export class ProductsDetailComponent implements OnInit {
     );
     return exists;
   }
+
+  buyNow(product:Product) {
+     const productId = product._id!;
+    if (!this.isInShoppingCart(productId)) {
+      this.shoppingCartService.addToCart(productId, 1).subscribe(() => {
+        this.shoppingCartService.init();
+      });
+    }
+    this.router.navigate(['/shopping-cart']);
+  //  console.log('product: ', product);
+  //  const dataToPass = {
+  //   quantity: 1,
+  //   productId: product
+  //  }
+  //  this.router.navigate(['/shopping-cart'], {
+  //   state: { data: dataToPass, orderStep: 1 }
+  // });  [routerLink]="'/product/' + product._id"
+}
+
+routing(product:Product){
+  const productId = product._id!;
+  this.router.navigate(['/product/'+productId]);
+}
 }

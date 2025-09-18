@@ -1,29 +1,48 @@
 <div class="px-5">
-    
-<owl-carousel-o *ngIf="bannerImages?.length" [options]="customOptions">
-  <ng-template carouselSlide *ngFor="let banner of bannerImages">
-    <div class="relative flex flex-col items-center" [routerLink]="'product/'+ banner._id">
-      <img [src]="banner.images[0].image" [alt]="banner.name" />
-      <span>{{banner.name}}</span>
-    </div>
-  </ng-template>
-</owl-carousel-o>
-   
-    <div class="mt-4">
-    <h2>Featured Products</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-4">
-  <div *ngFor="let product of featuredProducts; trackBy: trackByFn">
-  <app-products-card [product]="product"></app-products-card>
-  </div>
-</div>
-</div>
-<div class="mt-4">
-    <h2>New Products</h2>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  px-4">
-  <div *ngFor="let product of newProducts; trackBy: trackByFn">
-  <app-products-card [product]="product"></app-products-card>
+  <owl-carousel-o *ngIf="bannerImages?.length" [options]="customOptions">
+    <ng-template carouselSlide *ngFor="let banner of bannerImages">
+      <div class="relative flex flex-col items-center" [routerLink]="'product/'+ banner._id">
+        <img [src]="banner.images[0].image" [alt]="banner.name" />
+        <span>{{banner.name}}</span>
+      </div>
+    </ng-template>
+  </owl-carousel-o>
+
+  <div class="mt-4">
+    <h2>Featured Products</h2>
+    <div *ngIf="isLoadingFeatured" class="flex justify-center items-center w-full my-4">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-500"></div>
+    </div>
+    <div *ngIf="featuredProducts.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-4">
+        <div *ngFor="let product of featuredProducts; trackBy: trackByFn">
+          <app-products-card [product]="product"></app-products-card>
+        </div>
+    </div>
+    <div *ngIf="featuredProducts.length === 0">
+        <div class="text-center text-gray-500 py-12" *ngIf="!isLoadingFeatured">
+          <p class="text-xl font-semibold text-violet-600">
+            Currently Featured Products is not Available, will listed soon..!
+          </p>
+        </div>
+      </div>
   </div>
-</div>
-</div>
+  <div class="mt-4">
+    <h2>New Products</h2>
+    <div *ngIf="isLoadingNew" class="flex justify-center items-center w-full my-4">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-500"></div>
+    </div>
+    <div *ngIf="newProducts.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  px-4">
+        <div *ngFor="let product of newProducts; trackBy: trackByFn">
+          <app-products-card [product]="product"></app-products-card>
+        </div>
+    </div>
+    <div *ngIf="newProducts.length === 0">
+      <div class="text-center text-gray-500 py-12 w-full" *ngIf="!isLoadingNew">
+        <p class="text-xl font-semibold text-violet-600">
+          Currently New Products is not Available, will listed soon..!
+        </p>
+      </div>
+  </div>
+  </div>
 </div>

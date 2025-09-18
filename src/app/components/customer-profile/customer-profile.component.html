@@ -14,7 +14,10 @@
     <div class="details-card">
       <h3>Account Information</h3>
       <p><strong>Created At:</strong> {{ userDetails?.createdAt | date:'medium' }}</p>
-      <p><strong>Last Login:</strong> {{ userDetails?.lastLogin | date:'medium' }}</p>
+       <p><strong>Current Login:</strong> {{ userDetails?.currentLogin | date:'medium' }}</p>
+<p>
+  <strong>Last Login:</strong> {{ userDetails?.lastLogin ? (userDetails.lastLogin | date:'medium') : 'This is your first login.' }}
+</p>
     </div>
 
     <div class="details-card">
@@ -24,8 +27,8 @@
     </div>
   </div>
 
-  <div class="actions">
+  <!-- <div class="actions">
     <button class="edit-btn">Edit Profile</button>
     <button class="logout-btn" (click)="logout()">Logout</button>
-  </div>
+  </div> -->
 </div>

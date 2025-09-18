@@ -36,16 +36,34 @@ export class ShoppingCartComponent implements OnInit {
   orderStep: number = 0;
   addressForm!: FormGroup;
   paymentType: string = 'cash';
+  promoCode: string = '';
+  dateRangeText: string = '';
+
   constructor(
     private shoppingCartService: ShoppingCartService,
     private orderService: OrderService,
     private fb: FormBuilder,
     private router: Router
-  ) {}
+  ) {
+  // const nav = this.router.getCurrentNavigation();
+  // const state = nav?.extras.state;
+  // console.log('state: ', state);
+
+  // if (state) {
+  //   this.receivedData = state['data'];
+  //   console.log('this.receivedData: ', this.receivedData);
+  //   this.orderStep = state['orderStep'];
+  // }  
+}
 
   ngOnInit(): void {
-    this.cartList = this.shoppingCartService.cartList;
-    this.initialization();
+    // this.cartList = this.shoppingCartService.cartList;
+  this.shoppingCartService.cart$.subscribe((cart) => {
+    this.cartList = cart;
+    console.log('Updated cartList:', this.cartList);
+  });    
+  this.initialization();
+   this.dateRangeText = this.getDateRangeText(3);
   }
 
   trackByFn(index: number, item: Product) {
@@ -141,6 +159,7 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   checkOut() {
+    // if(this.cartList.length !== 0 || !this.receivedData)
     this.orderStep = 1;
   }
 
@@ -163,6 +182,7 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   order() {
+    if(this.cartList.length !== 0){
     let order = {
       items: this.cartList,
       paymentType: this.paymentType,
@@ -193,5 +213,50 @@ export class ShoppingCartComponent implements OnInit {
         });
       },
     });
+  }
+  else{
+    Swal.fire({
+          icon: 'error',
+          title: 'Cart is Empty',
+          text: 'Please select any items',
+          confirmButtonText: 'Okay',
+        });
+  }
+  }
+
+  apply(){
+     if (this.promoCode.trim()) {
+            Swal.fire({
+          icon: 'error',
+          title: 'Invalid Coupon',
+          text: 'Please enter valid coupon code.',
+          confirmButtonText: 'Okay',
+        }).then(() => {
+      this.promoCode = '';
+    });;
+      //  this.promoCode = '';
+    }
+  }
+
+  getDateRangeText(daysRange: number): string {
+    const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+    const today = new Date();
+
+    // Format start date
+    const startDateStr = today.toLocaleDateString('en-US', options);
+
+    // Calculate end date by adding daysRange days
+    const endDate = new Date(today);
+    endDate.setDate(endDate.getDate() + daysRange);
+
+    const endDateStr = endDate.toLocaleDateString('en-US', options);
+
+    // If same month, show "Sep 2 - 5"
+    if (today.getMonth() === endDate.getMonth()) {
+      return `${startDateStr.split(' ')[0]} ${today.getDate()} - ${endDate.getDate()}`;
+    }
+
+    // Different month, show full range "Sep 28 - Oct 2"
+    return `${startDateStr} - ${endDateStr}`;
   }
 }

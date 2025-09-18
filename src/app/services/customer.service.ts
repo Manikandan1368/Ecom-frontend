@@ -4,11 +4,16 @@ import { Product } from '../types/product';
 import { environment } from '../../environments/environment.development';
 import { Category } from '../types/category';
 import { Brand } from '../types/brand';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerService {
+
+  private searchItem = new BehaviorSubject<string | ''>('');
+  currentSearch = this.searchItem.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getNewProducts() {
@@ -66,5 +71,10 @@ export class CustomerService {
       `${environment.apiUrl}/customer/products/${productId}/reviews`,
       review
     );
+  }
+
+  updateSearchValue(value:string){
+    console.log('value: ', value);
+    this.searchItem.next(value);
   }
 }

@@ -14,11 +14,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { WishlistService } from '../../services/wishlist.service';
 import { ShoppingCartService } from '../../services/shopping-cart.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-products-card',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIconModule, MatButtonModule],
+  imports: [CommonModule, RouterLink, MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './products-card.component.html',
   styleUrl: './products-card.component.scss',
 })

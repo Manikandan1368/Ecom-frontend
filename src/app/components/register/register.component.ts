@@ -18,6 +18,7 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,

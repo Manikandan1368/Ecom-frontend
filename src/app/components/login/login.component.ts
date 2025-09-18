@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   loginForm!:FormGroup;
   isLoggedIn: boolean = false;
+  showPassword = false;
 
   constructor(private fb:FormBuilder, private authService:AuthService, private router:Router){ }
 
@@ -38,12 +39,17 @@ clearLocalStorage() {
   const {  email, password } = this.loginForm.value;
   const request = { email, password };
   this.authService.login(request).subscribe((result:any)=>{
+    if(result.error){
+    alert(result.error || 'Invalid email or password. Please try again.');
+    }
+    else{
     alert("User Login Successfully");
     localStorage.setItem ("token",result.token);
     localStorage.setItem ("user",JSON.stringify(result.user));
     setTimeout(() => {
       this.router.navigateByUrl("/");
       this.authService.setLoginStatus(true);
-    }, 50);  })
+    }, 50);  }
+  })
   }
 }

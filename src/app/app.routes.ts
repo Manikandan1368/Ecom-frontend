@@ -18,11 +18,29 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { CustomerOrdersComponent } from './components/customer-orders/customer-orders.component';
 import { OrdersComponent } from './components/manage/orders/orders.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { FaqComponent } from './components/faq/faq.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 export const routes: Routes = [
     {
         path: '',
         component: HomeComponent,
+        canActivate:[authGaurd]
+    },
+        {
+        path: 'about-us',
+        component: AboutUsComponent,
+        canActivate:[authGaurd]
+    },
+    {
+        path: 'contact',
+        component: ContactComponent,
+        canActivate:[authGaurd]
+    },
+    {
+        path: 'faq',
+        component: FaqComponent,
         canActivate:[authGaurd]
     },
     {
